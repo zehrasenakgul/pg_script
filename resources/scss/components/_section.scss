@@ -1,0 +1,112 @@
+section {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+p,
+    h1,
+    h2,
+    h3.h4,
+    h5,
+    h6 {
+        word-break: break-word;
+    }
+
+    .fa-file-pdf {
+        font-size: 25px;
+    }
+
+    ::-webkit-calendar-picker-indicator {
+        filter: invert(72%) sepia(81%) saturate(7454%) hue-rotate(13deg) brightness(114%) contrast(107%);
+    }
+
+    .shadow-c {
+        box-shadow: 0 0rem 1rem rgb(0 0 0 / 11%) !important;
+    }
+
+    .pt-80 {
+        padding-top: 80px;
+    }
+
+    .pb-80 {
+        padding-bottom: 80px;
+    }
+    .pb-150{
+        padding-bottom: 150px;
+    }
+
+    .w-31 {
+        width: 31%;
+    }
+
+    .w-125{
+        width: 125px !important;
+    }
+    .w-126{
+        width: 126px;
+    }
+
+    // .w-275{
+    //     width: 275px;
+    // }
+
+    .head {
+        font-size: 55px;
+    }
+
+    .sub-head {
+        font-size: 18px;
+    }
+
+    .content {
+        font-size: 18px
+    }
+
+    .fw-600 {
+        font-weight: 600;
+    }
+
+    .fw-500 {
+        font-weight: 500;
+    }
+
+    .fw-400 {
+        font-weight: 400;
+    }
+
+    .margin-neg {
+        margin-top: -12px;
+    }
+
+
+
+    @media screen and (max-width:991.5px) {
+        .head {
+            font-size: 40px;
+        }
+
+        br.responsive {
+            display: inline; // Show BR tag for narrow screens
+          }
+    }
+
+    @media screen and (max-width:767.5px) {
+        .head {
+            font-size: 36px;
+        }
+        .w-125{
+            width: 50%;
+            font-size: 12px;
+        }
+    }
+
+    @media screen and (max-width:991.5px) {
+        .table{
+            width: 200%;
+        }
+    }
+    @media screen and (max-width:576.5px) {
+        .table{
+            width: 350%;
+        }
+    }

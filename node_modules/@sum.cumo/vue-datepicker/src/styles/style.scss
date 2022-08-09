@@ -1,0 +1,277 @@
+.rtl {
+  direction: rtl;
+}
+
+.vdp-datepicker {
+  position: relative;
+  text-align: left;
+  box-sizing: border-box;
+}
+
+.vdp-datepicker__calendar {
+  background: #fff;
+  border: 1px solid #ccc;
+  position: absolute;
+  width: 300px;
+  z-index: 10000;
+
+  > div {
+    background: #fff;
+    width: 298px;
+  }
+
+  .today {
+    background-color: #eee;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  &.vdp-datepicker__calendar--inline {
+    position: static;
+  }
+
+  button {
+    background: inherit;
+    text-align: center;
+
+    &:disabled {
+      color: #ddd;
+    }
+  }
+
+  header {
+    display: flex;
+    height: 40px;
+    justify-content: space-between;
+
+    button {
+      border: none;
+
+      &:hover:not(:disabled) {
+        background: #eee;
+      }
+
+      &.vdp-datepicker__up {
+        color: #000;
+        flex-grow: 5;
+      }
+    }
+
+    .prev,
+    .next {
+      flex-grow: 1;
+      max-height: 40px;
+      position: relative;
+
+      .default {
+        display: flex;
+        text-indent: -10000px;
+
+        &:after {
+          border: 6px solid transparent;
+          content: '';
+          left: 50%;
+          position: absolute;
+          top: 50%;
+          transform: translateX(-50%) translateY(-50%);
+        }
+      }
+
+      &.rtl {
+        transform: rotate(180deg);
+      }
+    }
+
+    .prev {
+      .default {
+        &:after {
+          border-right: 10px solid #000;
+          margin-left: -5px;
+        }
+      }
+
+      &:disabled {
+        .default {
+          &:after {
+            border-right: 10px solid #ddd;
+          }
+        }
+      }
+    }
+
+    .next {
+      .default {
+        &:after {
+          border-left: 10px solid #000;
+          margin-left: 5px;
+        }
+      }
+
+      &:disabled {
+        .default {
+          &:after {
+            border-left: 10px solid #ddd;
+          }
+        }
+      }
+    }
+  }
+
+  .cell {
+    border: 1px solid transparent;
+    display: inline-block;
+    height: 40px;
+    padding: 0 5px;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    width: 14.285714285714286%;
+
+    &:not(.blank):not(.disabled).day,
+    &:not(.blank):not(.disabled).month,
+    &:not(.blank):not(.disabled).year {
+      cursor: pointer;
+
+      &:hover {
+        border: 1px solid #4bd;
+      }
+
+      &:focus {
+        z-index: 1;
+      }
+    }
+
+    &.selected {
+      background: #4bd;
+      color: #104756;
+
+      &:hover {
+        background: #4bd;
+      }
+
+      &.highlighted {
+        background: #4bd;
+      }
+    }
+
+    &.highlighted {
+      background: #cae5ed;
+      color: #104756;
+
+      &.disabled {
+        color: #accad2;
+      }
+    }
+
+    &.muted {
+      color: #757575;
+
+      &.selected {
+        color: #104756;
+      }
+
+      &.disabled:not(.selected) {
+        color: #ddd;
+
+        &.highlighted {
+          color: #accad2;
+        }
+      }
+    }
+  }
+
+  .day-header span {
+    display: inline-block;
+    font-size: 75%;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 5px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 14.285714285714286%;
+  }
+
+  .month,
+  .year {
+    width: 33.333%;
+  }
+
+  .picker-view {
+    width: inherit;
+
+    .cells-wrapper {
+      overflow: hidden;
+      position: relative;
+
+      .picker-cells {
+        transition: all 250ms ease-in-out;
+      }
+    }
+
+    .slide-right-enter-active {
+      top: 0;
+    }
+    .slide-right-leave-active {
+      position: absolute;
+      top: 0;
+    }
+    .slide-right-enter {
+      transform: translate(100%, 0);
+    }
+    .slide-right-leave-to {
+      transform: translate(-100%, 0);
+    }
+
+    .slide-left-enter-active {
+      top: 0;
+    }
+    .slide-left-leave-active {
+      position: absolute;
+      top: 0;
+    }
+    .slide-left-enter {
+      transform: translate(-100%, 0);
+    }
+    .slide-left-leave-to {
+      transform: translate(100%, 0);
+    }
+  }
+}
+
+.toggle-enter-active,
+.toggle-leave-active {
+  transition: all 250ms ease;
+}
+
+.toggle-enter,
+.toggle-leave-to {
+  opacity: 0;
+}
+
+.view-leave-active {
+  position: absolute;
+}
+
+.view-enter-active,
+.view-leave-active {
+  transition: all 250ms ease;
+}
+
+.view-enter,
+.view-leave-to {
+  opacity: 0;
+}
+
+.vdp-datepicker__clear-button,
+.vdp-datepicker__calendar-button {
+  border: none;
+  font-style: normal;
+
+  &.input-group-prepend,
+  &.input-group-append {
+    padding: 0;
+  }
+}

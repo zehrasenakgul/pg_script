@@ -1,0 +1,92 @@
+.signup {
+    background: #F6F2F1;
+    h1{
+        font-size: 36px;
+    }
+.fa-arrow-down{
+    font-size: 25px;
+    padding-left: 13px;
+}
+    .nav-pills{
+.nav-link{
+    background-color: #e1e1e1;
+    color: $black;
+    &.active{
+        background-color: $secondary;
+        color: $white;
+    }
+}
+    }
+    .signup-section {
+        padding: 0 90px 0 130px;
+    }
+
+    .signup-wrapper {
+        height: 100vh;
+        min-height: 100%;
+    }
+
+    .logo {
+        height: 50px;
+        width: 168px;
+    }
+
+    .form-signup {
+        input {
+            border: 1px solid transparent;
+            border-bottom: 2px solid #bcb8b8 !important;
+            border-radius: 0;
+            outline: none;
+            background-color: transparent;
+
+            &::placeholder {
+                color: $primary;
+            }
+        }
+
+        i {
+            right: 13px;
+            top: 15px;
+            color: $primary
+        }
+
+        .small{
+            color: #305c99;
+        }
+
+    }
+    .social-signup{
+        .btn-fb{
+            background-color: #305c99 !important;
+        }
+        .btn-insta{
+            background-color: #00cdff !important;
+        }
+        .btn-g{
+            background-color: #3f3d3e !important;
+        }
+    }
+
+    .signin {
+        color: $primary;
+
+        a {
+            color: $secondary;
+        }
+    }
+@media screen and (max-width:1271.5px) {
+    .signup-section {
+        padding: 0 112px;
+    }
+}
+    @media screen and (max-width:1200px) {
+        .signup-section {
+            padding: 0 50px;
+        }
+    }
+    @media screen and (max-width:576.5px) {
+        .signup-section {
+            padding: 0 10px;
+        }
+    }
+}
