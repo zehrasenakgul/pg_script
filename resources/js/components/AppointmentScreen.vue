@@ -1,8 +1,11 @@
 <template>
   <section class="appointment-screen mt-0 mb-0">
-      <div v-if="loading">
-          loading....
+      <div>
+          {{id}}
       </div>
+    <div v-if = "loading">
+      ...loading
+    </div>
     <div v-else class="container">
     <div  v-show="!loading" class="container">
       <div class="row">
@@ -473,7 +476,7 @@ import loginMixin from "../mixins/loginMixin.js";
 import DatePicker from '@sum.cumo/vue-datepicker'
 import '@sum.cumo/vue-datepicker/dist/Datepicker.css'
 export default {
-  props: ["url", "mentor_id"],
+  props: ["url", "mentor_id","id"],
   mixins: [loginMixin],
    components: {
     DatePicker,
@@ -481,7 +484,7 @@ export default {
   data() {
     return {
       loading: true,
-      mentorId: this.mentor_id,
+      mentorId: this.id,
       mentorDetails: [],
       selected_date: "",
       selected_new_date: "",
@@ -534,7 +537,7 @@ export default {
       console.log(this.selected_date);
       const params = {
         token: 123,
-        mentor_id: this.mentor_id,
+        mentor_id: this.id,
         date: this.selected_date,
         appointment_type_id: appointment_type,
       };
@@ -600,7 +603,7 @@ export default {
     async fetchMentorData() {
       const params = {
         token: 123,
-        user_id: this.mentor_id,
+        user_id: this.id,
       };
       const res = await axios.get("/api/getUserById", { params });
       if (res.data && res.data.Status) {
@@ -621,7 +624,7 @@ export default {
     async getAvailableDays(){
         const params = {
         token: 123,
-        mentor_id: this.mentor_id,
+        mentor_id: this.id,
         appointment_type_id: this.appointment_id,
       };
       const res = await axios.get("/api/get-available-days", { params });
@@ -669,7 +672,7 @@ export default {
     async fetchAppointmentTypeFee() {
       const params = {
         token: 123,
-        mentor_id: this.mentor_id,
+        mentor_id: this.id,
         appointment_type_id: 3,
       };
       const res = await axios.get("/api/get-mentor-fee", { params });
@@ -682,7 +685,7 @@ export default {
     },
   },
   created() {
-    // console.log(this.url, this.mentor_id);
+    // console.log(this.url, this.id);
     this.fetchMentorData();
     this.checkLoggedIn();
     if (this.is_loggedIn && this.User.role == "Mentee") {

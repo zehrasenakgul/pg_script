@@ -1,7 +1,14 @@
 <template>
     <div>
         <hero-section></hero-section>
-        <AppointmentScreen :url=url :mentor-id=2></AppointmentScreen>
+        <AppointmentScreen id="2">
+         </AppointmentScreen>
+        <section-buttons>
+            <div class="Buttons">
+                <button type="button" @click="idSetter(1)">Go to User1</button>
+                <button type="button" @click="idSetter(2)">Go to User2</button>
+            </div>
+        </section-buttons>
         <consultant-section :url=url></consultant-section>
         <top-guiders-section :url=url></top-guiders-section>
         <why-you-choose-section></why-you-choose-section>
@@ -15,7 +22,15 @@
 <script>
 import AppointmentScreen from './AppointmentScreen.vue';
 export default {
-    props: ["url"],
+    props: ["url","givenID"],
+    data(){
+        this.givenID = idNumber
+    },
+    methods :{
+        idSetter(idNum){
+            console.log("BERKAY",idNum)
+        },
+    },
     components : {
         AppointmentScreen
     }
