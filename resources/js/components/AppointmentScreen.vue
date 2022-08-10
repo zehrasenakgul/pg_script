@@ -78,8 +78,7 @@
                       </div>
                     </button>
                     <button class="nav-link mb-3 shadow-sm" id="v-pills-home-tab" data-bs-toggle="pill" :data-bs-target="
-                      '#v-pills-' + schedule.appointment_type.name
-                    " type="button" role="tab" aria-controls="v-pills-home" aria-selected="false"
+                      '#v-pills-' + schedule.appointment_type.name" type="button" role="tab" aria-controls="v-pills-home" aria-selected="false"
                       v-for="schedule in mentorDetails.schedule_types" :key="schedule.appointment_type_id"
                       @click="changeAppointmentType(schedule.appointment_type.name, schedule.appointment_type_id, schedule.fee)">
                       <div class="d-flex align-items-center">
@@ -96,7 +95,7 @@
                           ps-xxl-3 ps-2
                         ">
                           <p class="mb-0 text-capitalize">
-                            {{ schedule.appointment_type.name }} consult
+                            {{ schedule.appointment_type.name }} Consult
                           </p>
                           <span class="text-muted">Fee {{ schedule.fee }}</span>
                         </span>
@@ -182,7 +181,6 @@
                           <div class="img-wrapper img-schedule">
                             <img :src="url + '/assets/images/time-slots2.jpg'" class="img-fluid image w-100" alt=""
                               style="opacity:.3">
-
                           </div>
                         </div>
                         <div v-if="availableSlots.length > 0" class="col-md-12 mt-4">
@@ -314,7 +312,7 @@ import loginMixin from "../mixins/loginMixin.js";
 import DatePicker from '@sum.cumo/vue-datepicker'
 import '@sum.cumo/vue-datepicker/dist/Datepicker.css'
 export default {
-  props: ["url", "mentor_id", "id", "berk"],
+  props: ["url", "mentor_id", "id", "berk",],
   mixins: [loginMixin],
   components: {
     DatePicker,
@@ -347,7 +345,7 @@ export default {
     };
   },
   methods: {
-    changeAppointmentType(appointmentTypeString, appointmentType, fee) {
+    async changeAppointmentType(appointmentTypeString, appointmentType, fee) {
       this.sortedSlots.morning = [];
       this.sortedSlots.afternoon = [];
       this.sortedSlots.evening = [];
@@ -362,19 +360,21 @@ export default {
       else if (appointmentType == 3) {
         this.appointment_chat = true;
       }
+      //Video is id 2
+       console.log("Appointment Type : ", this.appointment_id , "and Appointment Type String:",this.type)
       this.getAvailableDays()
       //   console.log(appointmentTypeString,appointmentType,fee);
       //   console.log(this.type,this.appointment_id,this.appointment_fee);
-
     },
     async fetchAvailableSlots(e, appointment_type) {
       // console.log(e);
       let today = new Date(e).toLocaleDateString('en-us');
       this.selected_date = today;
       this.selected_new_date = today;
-      console.log(this.selected_date);
+      console.log("Your Selected Date :",this.selected_date);
       const params = {
         token: 123,
+        //Slot Fix için buraya dinamik veri göndermek lazım
         mentor_id: this.id,
         date: this.selected_date,
         appointment_type_id: appointment_type,
@@ -438,6 +438,7 @@ export default {
       this.user_selected_slot =
         this.sortedSlots[this.selectedFrom][this.isActive].slot;
     },
+
     async fetchMentorData() {
       console.log('berk -> ',this.berk);
       const params = {
@@ -453,6 +454,7 @@ export default {
         this.loading = false;
       }
     },
+
     async loadAppointmentComponent() {
 
       if (this.appointment_chat) {
@@ -523,6 +525,7 @@ export default {
         this.type = 'chat';
         // console.log(this.appointment_fee,this.appointment_id,this.type);
       }
+     
     },
   },
   created() {
@@ -548,19 +551,19 @@ export default {
         console.log('mentorid -> ', this.mentorId)
         console.log('deger değişti -> ', oldvalue, newvalue)
 
-
         this.fetchMentorData();
         this.checkLoggedIn();
         if (this.is_loggedIn && this.User.role == "Mentee") {
-        } else if (this.is_loggedIn && this.User.role == "Mentor") {
-          this.$toasted.error("Please Login as a User");
+          } else if (this.is_loggedIn && this.User.role == "Mentor") {
+            this.$toasted.error("Please Login as a User");
         } else {
           window.location.href = this.url + "/login";
           this.$toasted.error("Please Login First");
         }
-        
+        changeAppointmentType(appointmentTypeString, appointmentType, fee)
       }
-    }
+    },
+
   }
 
 };

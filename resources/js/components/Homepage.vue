@@ -27,11 +27,11 @@ export default {
     props: ["url","givenID"],
     data(){
         return{
-            berk:1
+            berk:1,
         }
     },
     methods :{
-        idSetter(e){
+        idSetter(e,appo_id){
             this.berk = e
             console.log("yeni deger -> ",this.berk)
         },
