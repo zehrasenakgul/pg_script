@@ -1,15 +1,16 @@
 <template>
     <div>
         <hero-section></hero-section>
-        <AppointmentScreen id="2">
-         </AppointmentScreen>
+        <AppointmentScreen v-bind:berk="berk">
+        </AppointmentScreen>
         <section-buttons>
             <div class="Buttons">
                 <button type="button" @click="idSetter(1)">Go to User1</button>
                 <button type="button" @click="idSetter(2)">Go to User2</button>
+                <button type="button" @click="idSetter(9)">Go to User3</button>
             </div>
         </section-buttons>
-        <consultant-section :url=url></consultant-section>
+        <!-- <consultant-section :url=url></consultant-section> -->
         <top-guiders-section :url=url></top-guiders-section>
         <why-you-choose-section></why-you-choose-section>
         <book-appointment-section></book-appointment-section>
@@ -21,18 +22,23 @@
 
 <script>
 import AppointmentScreen from './AppointmentScreen.vue';
+
 export default {
     props: ["url","givenID"],
     data(){
-        this.givenID = idNumber
+        return{
+            berk:1
+        }
     },
     methods :{
-        idSetter(idNum){
-            console.log("BERKAY",idNum)
+        idSetter(e){
+            this.berk = e
+            console.log("yeni deger -> ",this.berk)
         },
     },
     components : {
         AppointmentScreen
     }
 };
+
 </script>
