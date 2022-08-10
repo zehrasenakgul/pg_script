@@ -44,7 +44,7 @@
 
             <appointment-book :selected_new_date="selected_new_date" :type="type" :appointment_id="appointment_id"
               :appointment_fee="appointment_fee" :user_selected_slot="user_selected_slot" :url="url"
-              :mentor_id="mentor_id" :mentor_number="mentorDetails.phone"
+              :mentor_id="this.berk" :mentor_number="mentorDetails.phone"
               @cancelAppointment="() => { this.appointmentComponent = false; this.appointmentComponent = false }">
             </appointment-book>
           </div>
@@ -375,7 +375,7 @@ export default {
       const params = {
         token: 123,
         //Slot Fix için buraya dinamik veri göndermek lazım
-        mentor_id: this.id,
+        mentor_id: this.berk,
         date: this.selected_date,
         appointment_type_id: appointment_type,
       };
@@ -560,7 +560,7 @@ export default {
           window.location.href = this.url + "/login";
           this.$toasted.error("Please Login First");
         }
-        changeAppointmentType(appointmentTypeString, appointmentType, fee)
+        fetchAvailableSlots(e, appointment_type);
       }
     },
 
