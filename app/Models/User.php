@@ -23,7 +23,7 @@ use Bavix\Wallet\Interfaces\Wallet;
 
 class User extends Authenticatable implements Wallet
 {
-    use HasApiTokens, HasFactory, Notifiable,HasPermissionsTrait,HasWallet;
+    use HasApiTokens, HasFactory, Notifiable, HasPermissionsTrait, HasWallet;
 
     /**
      * The attributes that are mass assignable.
@@ -31,29 +31,11 @@ class User extends Authenticatable implements Wallet
      * @var string[]
      */
     protected $fillable = [
-        'name',
         'first_name',
         'last_name',
         'email',
         'phone',
-        'image_path',
-        'country',
-        'city',
-        'address',
-        'postal_code',
-        'password',
-        'father_name',
-        'cnic',
-        'gender',
-        'religion',
-        'dob',
-        'occupation',
-        "online_status",
-        'device_key',
-        'admin_user',
-        'fb_id',
-        'google_id',
-        'about'
+        'company_name',
     ];
 
     /**
@@ -76,45 +58,52 @@ class User extends Authenticatable implements Wallet
     ];
     public function messages()
     {
-    return $this->hasMany(Message::class);
+        return $this->hasMany(Message::class);
     }
-    public function role(){
+    public function role()
+    {
 
-        return $this->belongsTo(RoleUser::class, 'id','user_id');
-
+        return $this->belongsTo(RoleUser::class, 'id', 'user_id');
     }
     public function mentee()
     {
-        return $this->hasOne(Mentee::class,'user_id','id');
+        return $this->hasOne(Mentee::class, 'user_id', 'id');
     }
     public function mentor()
     {
-        return $this->hasOne(Mentor::class,'user_id','id');
+        return $this->hasOne(Mentor::class, 'user_id', 'id');
     }
-    public function educations(){
-        return $this->hasMany(MentorEducation::class,'mentor_id','id');
+    public function educations()
+    {
+        return $this->hasMany(MentorEducation::class, 'mentor_id', 'id');
     }
-    public function fcmtokens(){
-        return $this->hasMany(UserFcmToken::class,'user_id','id');
+    public function fcmtokens()
+    {
+        return $this->hasMany(UserFcmToken::class, 'user_id', 'id');
     }
-    public function experiences(){
-        return $this->hasMany(MentorExperience::class,'mentor_id','id');
+    public function experiences()
+    {
+        return $this->hasMany(MentorExperience::class, 'mentor_id', 'id');
     }
-    public function card_detail(){
-        return $this->belongsTo(MentorCardDetail::class,'id','mentor_id');
+    public function card_detail()
+    {
+        return $this->belongsTo(MentorCardDetail::class, 'id', 'mentor_id');
     }
-    public function mentor_appointment(){
-        return $this->belongsTo(BookAppointment::class,'id','mentor_id');
+    public function mentor_appointment()
+    {
+        return $this->belongsTo(BookAppointment::class, 'id', 'mentor_id');
     }
-    public function mentee_appointment(){
-        return $this->belongsTo(BookAppointment::class,'id','mentee_id');
+    public function mentee_appointment()
+    {
+        return $this->belongsTo(BookAppointment::class, 'id', 'mentee_id');
     }
 
-    public function ratings(){
-        return $this->belongsTo(Rating::class,'id','mentor_id');
+    public function ratings()
+    {
+        return $this->belongsTo(Rating::class, 'id', 'mentor_id');
     }
     public  function user_country()
     {
-        return $this->hasOne(Country::class,'id','country');
+        return $this->hasOne(Country::class, 'id', 'country');
     }
 }
