@@ -536,13 +536,6 @@ export default {
     this.checkLoggedIn();
     console.log(" step -> 3");
 
-    if (this.is_loggedIn && this.User.role == "Mentee") {
-    } else if (this.is_loggedIn && this.User.role == "Mentor") {
-      this.$toasted.error("Please Login as a User");
-    } else {
-      window.location.href = this.url + "/login";
-      this.$toasted.error("Please Login First");
-    }
   },
   watch: {
     berk: {
@@ -557,7 +550,8 @@ export default {
           } else if (this.is_loggedIn && this.User.role == "Mentor") {
             this.$toasted.error("Please Login as a User");
         } else {
-          window.location.href = this.url + "/login";
+          //Loginde doğru yönlendirmeler
+          window.location.href = "/login";
           this.$toasted.error("Please Login First");
         }
         fetchAvailableSlots(e, appointment_type);
