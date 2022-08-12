@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <title>Consultant</title>
-    coskun
     <script src="{{asset('js/wheelnav.min.js')}}"></script>
     <script src="{{asset('js/raphael.min.js.map')}}" ></script>
     <script src="{{asset('js/raphael.min.js')}}" ></script>
