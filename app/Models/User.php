@@ -11,9 +11,9 @@ use Laravel\Passport\HasApiTokens;
 use App\Models\Mentor;
 use App\Models\Mentee;
 use App\Models\RoleUser;
-use App\Models\MentorEducation;
-use App\Models\MentorExperience;
-use App\Models\MentorCardDetail;
+// use App\Models\MentorEducation;
+// use App\Models\MentorExperience;
+// use App\Models\MentorCardDetail;
 use App\Models\BookAppointment;
 use App\Models\UserFcmToken;
 use App\Models\Message;
@@ -73,22 +73,22 @@ class User extends Authenticatable implements Wallet
     {
         return $this->hasOne(Mentor::class, 'user_id', 'id');
     }
-    public function educations()
-    {
-        return $this->hasMany(MentorEducation::class, 'mentor_id', 'id');
-    }
+    // public function educations()
+    // {
+    //     return $this->hasMany(MentorEducation::class, 'mentor_id', 'id');
+    // }
     public function fcmtokens()
     {
         return $this->hasMany(UserFcmToken::class, 'user_id', 'id');
     }
-    public function experiences()
-    {
-        return $this->hasMany(MentorExperience::class, 'mentor_id', 'id');
-    }
-    public function card_detail()
-    {
-        return $this->belongsTo(MentorCardDetail::class, 'id', 'mentor_id');
-    }
+    // public function experiences()
+    // {
+    //     return $this->hasMany(MentorExperience::class, 'mentor_id', 'id');
+    // }
+    // public function card_detail()
+    // {
+    //     return $this->belongsTo(MentorCardDetail::class, 'id', 'mentor_id');
+    // }
     public function mentor_appointment()
     {
         return $this->belongsTo(BookAppointment::class, 'id', 'mentor_id');
