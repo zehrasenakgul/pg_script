@@ -18,10 +18,12 @@ use App\Models\BookAppointment;
 use App\Models\MentorAssignCategory;
 use Mail;
 use Illuminate\Support\Str;;
+
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Hash;
+
 class UserLoginSignController extends Controller
 {
     //Combine Login Sign up
@@ -63,15 +65,16 @@ class UserLoginSignController extends Controller
                     $mentor = Mentor::where('user_id', $user[0]->id)->get();
                     if (count($mentor) > 0) {
                         $obj = ["Status" => true, "success" => 1, "data" =>
-                         [
-                         'AccessToken' => $tokenResult->accessToken,
-                        'token_type' => 'Bearer',
-                        'expires_at' => Carbon::parse(
-                            $tokenResult->token->expires_at
-                        )->toDateTimeString(),
+                        [
+                            'AccessToken' => $tokenResult->accessToken,
+                            'token_type' => 'Bearer',
+                            'expires_at' => Carbon::parse(
+                                $tokenResult->token->expires_at
+                            )->toDateTimeString(),
 
 
-                         'role' => $role, "is_login" => 1, "userDetail" => $user, 'is_profile_complete' => $mentor[0]->is_profile_completed], "msg" => "Logged in Successfully"];
+                            'role' => $role, "is_login" => 1, "userDetail" => $user, 'is_profile_complete' => $mentor[0]->is_profile_completed
+                        ], "msg" => "Logged in Successfully"];
                         session(['userDetail' => $status_user, 'role' => $role]);
                         return response()->json($obj);
                     } else {
@@ -82,8 +85,9 @@ class UserLoginSignController extends Controller
                             'expires_at' => Carbon::parse(
                                 $tokenResult->token->expires_at
                             )->toDateTimeString(),
-                             'role' => $role,
-                              "is_login" => 1, "userDetail" => $user, 'is_profile_complete' => 0], "msg" => "Logged in Successfully"];
+                            'role' => $role,
+                            "is_login" => 1, "userDetail" => $user, 'is_profile_complete' => 0
+                        ], "msg" => "Logged in Successfully"];
                         session(['userDetail' => $status_user, 'role' => $role]);
                         return response()->json($obj);
                     }
@@ -96,18 +100,20 @@ class UserLoginSignController extends Controller
                             'expires_at' => Carbon::parse(
                                 $tokenResult->token->expires_at
                             )->toDateTimeString(),
-                             'role' => $role, "is_login" => 1, "userDetail" => $user], "msg" => "Logged in Successfully"];
+                            'role' => $role, "is_login" => 1, "userDetail" => $user
+                        ], "msg" => "Logged in Successfully"];
                         session(['userDetail' => $status_user, 'role' => $role]);
                         return response()->json($obj);
                     } else {
                         $mentee = Mentee::create(['user_id' => $user[0]->id]);
                         $obj = ["Status" => true, "success" => 1, "data" => [
                             'AccessToken' => $tokenResult->accessToken,
-                        'token_type' => 'Bearer',
-                        'expires_at' => Carbon::parse(
-                            $tokenResult->token->expires_at
-                        )->toDateTimeString(),
-                         'role' => $role, "is_login" => 1, "userDetail" => $user], "msg" => "Logged in Successfully"];
+                            'token_type' => 'Bearer',
+                            'expires_at' => Carbon::parse(
+                                $tokenResult->token->expires_at
+                            )->toDateTimeString(),
+                            'role' => $role, "is_login" => 1, "userDetail" => $user
+                        ], "msg" => "Logged in Successfully"];
                         session(['userDetail' => $status_user, 'role' => $role]);
                         return response()->json($obj);
                     }
@@ -144,18 +150,21 @@ class UserLoginSignController extends Controller
                         'expires_at' => Carbon::parse(
                             $tokenResult->token->expires_at
                         )->toDateTimeString(),
-                         'role' => $role, "is_login" => 0, "userDetail" => $usersign, 'is_profile_complete' => 0], "msg" => "User Sign Up and Login Successfully"];
+                        'role' => $role, "is_login" => 0, "userDetail" => $usersign, 'is_profile_complete' => 0
+                    ], "msg" => "User Sign Up and Login Successfully"];
                     session(['userDetail' => $status_user, 'role' => $role]);
                     return response()->json($obj);
                 } else {
 
                     Mentee::create(['user_id' => $newUser->id]);
-                    $obj = ["Status" => true, "success" => 1, "data" => ['AccessToken' => $tokenResult->accessToken,
-                    'token_type' => 'Bearer',
-                    'expires_at' => Carbon::parse(
-                        $tokenResult->token->expires_at
-                    )->toDateTimeString(),
-                     'role' => $role, "is_login" => 0, "userDetail" => $usersign], "msg" => "User Sign Up and Login Successfully"];
+                    $obj = ["Status" => true, "success" => 1, "data" => [
+                        'AccessToken' => $tokenResult->accessToken,
+                        'token_type' => 'Bearer',
+                        'expires_at' => Carbon::parse(
+                            $tokenResult->token->expires_at
+                        )->toDateTimeString(),
+                        'role' => $role, "is_login" => 0, "userDetail" => $usersign
+                    ], "msg" => "User Sign Up and Login Successfully"];
                     session(['userDetail' => $status_user, 'role' => $role]);
                     return response()->json($obj);
                 }
@@ -323,20 +332,19 @@ class UserLoginSignController extends Controller
                 [
                     'first_name' => 'required|string',
                     'last_name' => 'required|string',
-                    'mentor_id' => 'required',
+                    // 'mentor_id' => 'required',
                     'father_name' => 'required|string',
-                    'cnic' => 'required',
-                    'address' => 'required|string',
-                    'gender' => 'required|string',
-                    'religion' => 'required|string',
-                    'dob' => 'required',
-                    'occupation' => 'required',
-                    'country' => 'required',
-                    'city' => 'required|string',
-                    'about' => 'required|string',
+                    'picture' => 'required|mimes:png,jpg,jpeg|max:20048',
+                    // 'cnic' => 'required',
+                    // 'address' => 'required|string',
+                    // 'gender' => 'required|string',
+                    // 'religion' => 'required|string',
+                    // 'dob' => 'required',
+                    // 'occupation' => 'required',
+                    // 'country' => 'required',
+                    // 'city' => 'required|string',
+                    // 'about' => 'required|string',
                     // 'email' => 'required|unique:users,email,' . $id . ',id|string',
-
-                    //'picture'=>'required|mimes:png,jpg,jpeg|max:20048'
                 ]
             );
             if ($validator->fails()) {
@@ -397,8 +405,8 @@ class UserLoginSignController extends Controller
             $user->occupation = $occupation;
             $user->country = $country;
             $user->city = $city;
-            $user->about=$about;
-            if($email){
+            $user->about = $about;
+            if ($email) {
                 $user->email = $email;
             }
 
@@ -426,7 +434,7 @@ class UserLoginSignController extends Controller
             if (count($mentor) > 0) {
                 $rating = Rating::where('mentor_id', $id)->avg('rating');
                 $ratings = Rating::with('mentee')->where('mentor_id', $id)->get();
-                $user = User::select(['id','first_name','last_name','email','image_path','created_at','country','father_name','cnic','gender','dob','city','address','occupation','religion','online_status','phone','about'])->with(['mentor','user_country','educations','experiences','card_detail'])->where('id', $id)->first();
+                $user = User::select(['id', 'first_name', 'last_name', 'email', 'image_path', 'created_at', 'country', 'father_name', 'cnic', 'gender', 'dob', 'city', 'address', 'occupation', 'religion', 'online_status', 'phone', 'about'])->with(['mentor', 'user_country', 'educations', 'experiences', 'card_detail'])->where('id', $id)->first();
                 $user['ratingsAvg'] = round($rating);
                 $user['ratings'] = $ratings;
 
@@ -436,27 +444,27 @@ class UserLoginSignController extends Controller
 
                 //schedule types available
 
-                $schedule_types=MentorSchedule::has('schedule_slots')->select('appointment_type_id',DB::raw('min(fee) as fee'))->where('mentor_id',$id)->with('appointment_type')->groupBy('appointment_type_id')->get();
-                $user['schedule_types']=$schedule_types;
-                $chat_type=MentorSchedule::select('appointment_type_id','fee')->where([['mentor_id',$id],['appointment_type_id',3]])->with('appointment_type')->get();
-                $user['without_schedule_types']=$chat_type;
+                $schedule_types = MentorSchedule::has('schedule_slots')->select('appointment_type_id', DB::raw('min(fee) as fee'))->where('mentor_id', $id)->with('appointment_type')->groupBy('appointment_type_id')->get();
+                $user['schedule_types'] = $schedule_types;
+                $chat_type = MentorSchedule::select('appointment_type_id', 'fee')->where([['mentor_id', $id], ['appointment_type_id', 3]])->with('appointment_type')->get();
+                $user['without_schedule_types'] = $chat_type;
                 //need made Dynamic
-                $user->mentor['about']="dsads asdsdasdsa ";
-                $user->mentor['experience']=4;
+                $user->mentor['about'] = "dsads asdsdasdsa ";
+                $user->mentor['experience'] = 4;
                 //total completed Appointments
-                $appointmentCount=BookAppointment::where([['mentor_id',$id],['appointment_status',2]])->count();
-                $user['appointmentCount']=$appointmentCount;
-                $days=0;
-                $years=0;
-                $months=0;
-                foreach($user->experiences as $experience){
-                    $to=Carbon::parse($experience->to);
-                    $from=Carbon::parse($experience->from);
+                $appointmentCount = BookAppointment::where([['mentor_id', $id], ['appointment_status', 2]])->count();
+                $user['appointmentCount'] = $appointmentCount;
+                $days = 0;
+                $years = 0;
+                $months = 0;
+                foreach ($user->experiences as $experience) {
+                    $to = Carbon::parse($experience->to);
+                    $from = Carbon::parse($experience->from);
                     $days += $to->diffInDays($from);
-                    $months+= $to->diffInMonths($from);
-                    $years +=$to->diffInYears($from);
+                    $months += $to->diffInMonths($from);
+                    $years += $to->diffInYears($from);
                 }
-                $user['experience_work']=['days'=>$days,'months'=>$months,'years'=>$years];
+                $user['experience_work'] = ['days' => $days, 'months' => $months, 'years' => $years];
             } else {
                 $user = User::where('id', $id)->first();
             }
@@ -601,7 +609,7 @@ class UserLoginSignController extends Controller
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'fb_id'=>(empty($request->fb_id))? Null:$request->fb_id
+            'fb_id' => (empty($request->fb_id)) ? Null : $request->fb_id
         ]);
         $user->save();
         // $user = $request->user();
@@ -610,10 +618,10 @@ class UserLoginSignController extends Controller
         // if ($request->remember_me)
         $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
-        if($request->role=="Mentor"){
-            Mentor::create(['user_id'=>$user->id]);
-        }else if($request->role=="Mentee"){
-            Mentee::create(['user_id'=>$user->id]);
+        if ($request->role == "Mentor") {
+            Mentor::create(['user_id' => $user->id]);
+        } else if ($request->role == "Mentee") {
+            Mentee::create(['user_id' => $user->id]);
         }
         $obj = [
             "Status" => true, "success" => 1,
@@ -622,8 +630,8 @@ class UserLoginSignController extends Controller
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at
             )->toDateTimeString(),
-            "data"=>["user"=>$user,'role'=>$request->role],
-            'msg'=>'Successfully Signup and Login'
+            "data" => ["user" => $user, 'role' => $request->role],
+            'msg' => 'Successfully Signup and Login'
         ];
         return response()->json($obj);
     }
@@ -641,7 +649,7 @@ class UserLoginSignController extends Controller
         $credentials = request(['email', 'password']);
         if (!Auth::attempt($credentials))
             return response()->json([
-                'msg' => 'Invalid Email or Password',"Status" => false, "success" => 0,
+                'msg' => 'Invalid Email or Password', "Status" => false, "success" => 0,
             ]);
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
@@ -649,28 +657,28 @@ class UserLoginSignController extends Controller
         // if ($request->remember_me)
         $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();
-        $role='';
-        if($request->role=="Mentor"){
-            $mentor=Mentor::where('user_id',$user->id)->first();
-            if($mentor){
-                $role='Mentor';
-            }else {
+        $role = '';
+        if ($request->role == "Mentor") {
+            $mentor = Mentor::where('user_id', $user->id)->first();
+            if ($mentor) {
+                $role = 'Mentor';
+            } else {
                 $obj = [
                     "Status" => false, "success" => 0,
 
-                    'msg'=>'Selected Wrong Role'
+                    'msg' => 'Selected Wrong Role'
                 ];
                 return response()->json($obj);
             }
-        }else if($request->role=="Mentee"){
-            $mentee=Mentee::where('user_id',$user->id)->first();
-            if($mentee){
-                $role='Mentee';
-            }else {
+        } else if ($request->role == "Mentee") {
+            $mentee = Mentee::where('user_id', $user->id)->first();
+            if ($mentee) {
+                $role = 'Mentee';
+            } else {
                 $obj = [
                     "Status" => false, "success" => 0,
 
-                    'msg'=>'Selected Wrong Role'
+                    'msg' => 'Selected Wrong Role'
                 ];
                 return response()->json($obj);
             }
@@ -682,12 +690,13 @@ class UserLoginSignController extends Controller
             'expires_at' => Carbon::parse(
                 $tokenResult->token->expires_at
             )->toDateTimeString(),
-            "data"=>["user"=>$user,'role'=>$role],
-            'msg'=>'Successfully Login'
+            "data" => ["user" => $user, 'role' => $role],
+            'msg' => 'Successfully Login'
         ];
         return response()->json($obj);
     }
-    public function forgetPassword(Request $request){
+    public function forgetPassword(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'email' => 'required|string|email',
         ]);
@@ -696,8 +705,8 @@ class UserLoginSignController extends Controller
             $obj = ["Status" => false, "success" => 0, "errors" => $validator->errors()];
             return response()->json($obj);
         }
-        $user=User::where('email',$request->email)->first();
-        if($user){
+        $user = User::where('email', $request->email)->first();
+        if ($user) {
             $token = Str::random(64);
 
             DB::table('password_resets')->insert([
@@ -706,25 +715,25 @@ class UserLoginSignController extends Controller
                 'created_at' => Carbon::now()
             ]);
 
-            Mail::send('email.forgetPassword', ['token' => $token], function($message) use($request){
+            Mail::send('email.forgetPassword', ['token' => $token], function ($message) use ($request) {
                 $message->to($request->email);
                 $message->subject('Reset Password');
             });
             $obj = [
                 "Status" => true, "success" => 1,
-                'msg'=>"Forget Password link has been sent to Email."
+                'msg' => "Forget Password link has been sent to Email."
             ];
             return response()->json($obj);
-        }else {
+        } else {
             $obj = [
                 "Status" => false, "success" => 0,
-                'msg'=>"No Email Found !"
+                'msg' => "No Email Found !"
             ];
             return response()->json($obj);
         }
-
     }
-    public function resetPassword(Request $request){
+    public function resetPassword(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'password' => 'required|string|min:6|confirmed',
             'password_confirmation' => 'required'
@@ -735,27 +744,27 @@ class UserLoginSignController extends Controller
             return response()->json($obj);
         }
         $updatePassword = DB::table('password_resets')
-        ->where([
-          'token' => $request->token
-        ])
-        ->first();
+            ->where([
+                'token' => $request->token
+            ])
+            ->first();
 
-        if(!$updatePassword){
-        // return back()->withInput()->with('error', 'Invalid token!');
+        if (!$updatePassword) {
+            // return back()->withInput()->with('error', 'Invalid token!');
             $obj = [
                 "Status" => false, "success" => 0,
-                'msg'=>'Invalid token!'
+                'msg' => 'Invalid token!'
             ];
             return response()->json($obj);
         }
 
-        $user = User::where('email',$updatePassword->email)
-        ->update(['password' => Hash::make($request->password)]);
+        $user = User::where('email', $updatePassword->email)
+            ->update(['password' => Hash::make($request->password)]);
 
-        DB::table('password_resets')->where(['email'=> $updatePassword->email])->delete();
+        DB::table('password_resets')->where(['email' => $updatePassword->email])->delete();
         $obj = [
             "Status" => true, "success" => 1,
-            'msg'=>'Successfully Updated Password'
+            'msg' => 'Successfully Updated Password'
         ];
         return response()->json($obj);
     }
