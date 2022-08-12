@@ -2,6 +2,11 @@
 <html lang="en">
 <head>
     <title>Consultant</title>
+    coskun
+    <script src="{{asset('js/wheelnav.min.js')}}"></script>
+    <script src="{{asset('js/raphael.min.js.map')}}" ></script>
+    <script src="{{asset('js/raphael.min.js')}}" ></script>
+    <script src="{{asset('js/raphael.icons.min.js')}}" ></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{asset('assets/images/favicon.png')}}" type="image/gif" sizes="16x16">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
