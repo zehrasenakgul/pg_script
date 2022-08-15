@@ -7,17 +7,17 @@
             <div class="Container">
                 <div id="bg_pie-1"></div>
                 <div id="bg_pie-2"></div>
-                    <div id='piemenu' data-wheelnav data-wheelnav-slicepath='PieSlice' data-wheelnav-marker
-                        data-wheelnav-markerpath='TriangleMarker' data-wheelnav-navangle='0' data-wheelnav-cssmode
-                        data-wheelnav-init>
-                        <div data-wheelnav-navitemtext='Human Resources' @click='openTheMenu(0)'></div>
-                        <div data-wheelnav-navitemtext='Legal' @click='openTheMenu(1)'></div>
-                        <div data-wheelnav-navitemtext='Sales & Channels' @click='openTheMenu(2)'></div>
-                        <div data-wheelnav-navitemtext='Software Development' @click='openTheMenu(3)'></div>
-                        <div data-wheelnav-navitemtext='Cloud' @click='openTheMenu(4)'></div>
-                        <div data-wheelnav-navitemtext='Marketing' @click='openTheMenu(5)'></div>
-                        <div data-wheelnav-navitemtext='Finance' @click='openTheMenu(6)'></div>
-                    </div>
+                <div id='piemenu' data-wheelnav data-wheelnav-slicepath='PieSlice' data-wheelnav-marker
+                    data-wheelnav-markerpath='TriangleMarker' data-wheelnav-navangle='0' data-wheelnav-cssmode
+                    data-wheelnav-init>
+                    <div id="letsTest" @onmousedown="idSetter(2)" data-wheelnav-navitemtext='Human Resources'></div>
+                    <div data-wheelnav-navitemtext='Legal' @click='idSetter(1)'></div>
+                    <div data-wheelnav-navitemtext='Sales & Channels' v-on:mouseup='idSetter(1)'></div>
+                    <div data-wheelnav-navitemtext='Software Development' @click='idSetter(3)'></div>
+                    <div data-wheelnav-navitemtext='Cloud' @click='idSetter(4)'></div>
+                    <div data-wheelnav-navitemtext='Marketing' @click='idSetter(5)'></div>
+                    <div data-wheelnav-navitemtext='Finance' @click='idSetter(6)'></div>
+                </div>
                 <div class="piemenu_middleContainer d-flex flex-column align-items-center">
                     <div class="infoContainer" style="display: none;width:500px;">
                         <img src="./images/infoIcon.svg" id="infoContIcon" alt="">
@@ -98,19 +98,20 @@ export default {
         }
     },
     methods: {
-        idSetter(e, appo_id) {
+        idSetter(e) {
+            console.log("vue clicked ->", e)
             this.berk = e
-            console.log("yeni deger -> ", this.berk)
         },
+        pieFunc(e) {
+            console.log('pie clicked');
+        }
     },
     components: {
         AppointmentScreen
     },
     mounted() {
         console.log('start  1 -> ', document.querySelector('#piemenu'))
-        console.log(' 2-> ', wheelnav)
         var piemenu = new wheelnav('piemenu');
-        console.log(' 3 -> ', piemenu)
         piemenu.clockwise = false;
         piemenu.animatetime = 500;
         piemenu.animateeffect = 'linear';
@@ -119,7 +120,28 @@ export default {
             piemenu.wheelRadius = piemenu.wheelRadius * 0.75;
         }
         piemenu.createWheel();
+
+        console.log('------');
+        console.log(piemenu)
+        console.log(piemenu.getSliceId())
+        console.log('------');
+
         console.log('step 4')
+        var listEl = document.querySelectorAll('#piemenu svg *')
+        var _this = this
+        listEl.forEach(function (e) {
+            e.onmouseup = function () {
+                console.log('in success -> ')
+                var id = e.getAttribute('id').split('wheelnav-piemenu-slice-')[1]
+                _this.berk = id
+                //this.idSetter(id)
+                console.log('berk -> ', _this.berk )
+                console.log('id -> ', id )
+            }
+        })
+        console.log('step 5');
+
+
     }
 };
 

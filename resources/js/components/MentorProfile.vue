@@ -174,7 +174,7 @@ export default {
 
       profile: {
         first_name: "",
-        last_name: "",
+        last_name: "", 
         f_name: "",
         picture: {},
         image_view: "",
@@ -254,13 +254,133 @@ export default {
         window.location.href = "/dashboard";
       }
     },
+    async fetchBankTabData() {
+      const result = await axios.get("/api/bankslist", {
+        params: { token: 123 },
+      });
+      if (result.data && result.data.Status) {
+        this.allBanks = result.data.data.banks;
+      }
+      const params = {
+        token: 123,
+        mentor_id: this.User.user_id,
+      };
+      const res = await axios.get("/api/mentor_card_show", { params });
+      console.log(res.data.data,res.data.Status);
+      if (res.data && res.data.Status) {
+        if(res.data.data.card){
+          this.bank.name = res.data.data.card.bank;
+          this.bank.account_title = res.data.data.card.account_title;
+          this.bank.account_number = res.data.data.card.account_number;
+          this.bank.id = res.data.data.card.id;
+        }
 
+      }
+    },
+    async fetchSubcategories(event, index) {
+      this.categoriesLoading = true;
+      var parent_id = event.target.value;
+      const params = {
+        token: 123,
+        parent_id: parent_id,
+      };
+      const res = await axios.get("/api/mentorChildCategoriesList", { params });
+      if (res.data && res.data.Status) {
+        this.mentorSubCategory = res.data.data.mentorCategories;
+        let tempCatArray = [];
+        let tempSelectedCatArray = [];
+        for (let i = 0; i <= index; i++) {
+          tempCatArray.push(this.allCategories[i]);
+          tempSelectedCatArray.push(this.selectedCategories[i]);
+        }
+        this.allCategories = tempCatArray;
+        this.selectedCategories = tempSelectedCatArray;
+        if (this.mentorSubCategory.length > 0) {
+          var obj = {
+            id: index++,
+            items: this.mentorSubCategory,
+          };
+          this.allCategories.push(obj);
+          this.selectedCategories.push(index);
+        }
+        this.categoriesLoading = false;
+      }
+    },
+    async fetchAllSkills() {
+      const params = {
+        token: 123,
+        mentor_id: this.User.user_id,
+      };
+      const res = await axios.get("/api/mentorSkillSelected", { params });
+      if (res.data && res.data.Status) {
+        this.skills.categories = res.data.data.category;
+      }
+    },
+
+    async addSkill() {
+      var self = this;
+      var toast = this.$toasted;
+      var formData = {
+        token: 123,
+        mentor_id: this.User.user_id,
+        categories: this.selectedCategories,
+      };
+      const res = await axios.post("/api/mentorSkill", formData).then((res) => {
+        if (res.data.Status) {
+          toast.success(res.data.msg);
+          //   document.getElementById("nav-accountinfo-tab").click();
+          self.fetchAllSkills();
+        }
+        if (!res.data.Status) {
+          toast.error("Please Fill all Fields...");
+        }
+      });
+    },
+    generalTab() {
+      $("#pills-general").addClass("active");
+      $("#pills-general").addClass("show");
+      $("#pills-experience-tab").removeClass("active");
+      $("#pills-experience").removeClass("active");
+      $('#pills-acc').removeClass('active');
+      $('#pills-acc').removeClass('show');
+      $('#pills-acc-tab').removeClass('active');
+
+      $("#pills-schedule-tab").removeClass("active");
+      $("#pills-schedule").removeClass("show");
+      $("#pills-schedule").removeClass("active");
+
+      $("#pills-educational-tab").removeClass("active");
+      $("#pills-educational").removeClass("show");
+      $("#pills-educational").removeClass("active");
+
+       $("#pills-experience-tab").removeClass("active");
+      $("#pills-experience").removeClass("show");
+      $("#pills-experience").removeClass("active");
+
+      $("#pills-skills-tab").removeClass("active");
+      $("#pills-skills").removeClass("show");
+      $("#pills-skills").removeClass("active");
+    },
     clearImage() {
       this.profile.image_view = "";
     },
+    processFile(event) {
+
+      this.profile.picture = event.target.files[0];
+      this.profile.image_view = URL.createObjectURL(event.target.files[0]);
+
+    },
+    processEducationFile(event) {
+      this.education.image = event.target.files[0];
+      this.education.image_view = URL.createObjectURL(event.target.files[0]);
+    },
+    processExperienceFile(event) {
+      this.experience.experience_image = event.target.files[0];
+      this.experience.image_view = URL.createObjectURL(event.target.files[0]);
+    },
 
 
-    async fatchUserData() {
+    async fetchUserData() {
       const params = {
         token: 123,
         user_id: this.User.user_id,
@@ -268,7 +388,6 @@ export default {
       const res = await axios.get("/api/getUserById", {
         params,
       });
-
       if (res.data && res.data.Status) {
         this.profile.first_name = res.data.data.userDetail.first_name
           ? res.data.data.userDetail.first_name
@@ -278,6 +397,9 @@ export default {
           : "";
         this.profile.f_name = res.data.data.userDetail.father_name
           ? res.data.data.userDetail.father_name
+          : "";
+        this.profile.image_path = res.data.data.userDetail.image_path
+          ? res.data.data.userDetail.image_path
           : "";
         this.is_profile_completed =
           res.data.data.userDetail.mentor.is_profile_completed;
@@ -296,9 +418,13 @@ export default {
         //   this.go_live_fee = res.data.data.userDetail.schedule.fee ? res.data.data.userDetail.schedule.fee : '';
         // }
         this.loading = false;
+         console.log("Data -->",res.data)
       }
     },
     async submitProfileInfo(e) {
+      if (this.profile.address == "") {
+        this.profile.address = document.getElementById("map").value;
+      }
       var self = this;
       var toast = this.$toasted;
       e.preventDefault();
@@ -323,6 +449,7 @@ export default {
         .then((res) => {
           if (res.data.Status) {
             toast.success(res.data.msg);
+            document.getElementById("pills-educational-tab").click();
           }
           if (!res.data.Status) {
             for (const property in res.data.errors) {
@@ -331,11 +458,15 @@ export default {
           }
         });
     },
+    getAddressData: function (addressData, placeResultData, id) {
+      this.profile.address = placeResultData.formatted_address;
+    },
   },
   created() {
     this.checkLoggedIn();
     this.mentor_id = this.User.user_id;
     // console.log(this.mentor_id);
+    this.fetchUserData();
 
     const dateFormatter = Intl.DateTimeFormat('sv-SE');
 
@@ -350,8 +481,7 @@ export default {
       window.location.href = this.url + "/login";
       this.$toasted.error("Please Login First");
     }
-    this.fatchUserData(); 
-
+    this.fetchUserData();
   },
 };
 </script>
