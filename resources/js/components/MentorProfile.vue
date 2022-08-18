@@ -388,6 +388,7 @@ export default {
       const res = await axios.get("/api/getUserById", {
         params,
       });
+      console.log("params",params)
       if (res.data && res.data.Status) {
         this.profile.first_name = res.data.data.userDetail.first_name
           ? res.data.data.userDetail.first_name

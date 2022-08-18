@@ -56,38 +56,14 @@
                   <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
                     aria-orientation="vertical">
                     <h6 class="text-primary py-3">Select Appointment Type</h6>
-                    <button class="nav-link active mb-3 shadow-sm" id="v-pills-chat-tab" data-bs-toggle="pill"
-                      data-bs-target="#v-pills-chat" type="button" role="tab" aria-controls="v-pills-chat" @click="changeAppointmentType(mentorDetails.without_schedule_types[0].appointment_type.name,
-                        mentorDetails.without_schedule_types[0].appointment_type_id, mentorDetails.without_schedule_types[0].fee
-                      )" v-if="mentorDetails.without_schedule_types.length > 0" aria-selected="false">
-                      <div class="d-flex align-items-center">
-                        <i class="fa-solid fa-comments"></i>
-                        <span class="
-                          d-flex
-                          flex-column
-                          justify-content-start
-                          align-items-baseline
-                          ps-xxl-3 ps-2
-                        ">
-                          <p class="mb-0 text-capitalize">Chat consult</p>
-                          <span class="text-muted">Fee
-                            {{
-                                mentorDetails.without_schedule_types[0].fee
-                            }}</span>
-                        </span>
-                      </div>
-                    </button>
                     <button class="nav-link mb-3 shadow-sm" id="v-pills-home-tab" data-bs-toggle="pill" :data-bs-target="
                       '#v-pills-' + schedule.appointment_type.name" type="button" role="tab" aria-controls="v-pills-home" aria-selected="false"
                       v-for="schedule in mentorDetails.schedule_types" :key="schedule.appointment_type_id"
-                      @click="changeAppointmentType(schedule.appointment_type.name, schedule.appointment_type_id, schedule.fee)">
-                      <div class="d-flex align-items-center">
+                      v-if="schedule.appointment_type_id == 2"
+                      @click="changeAppointmentType('video', 2, schedule.fee),console.log('DEITS->',schedule.appointment_type.name, schedule.appointment_type_id,  )">
+                      <div class="d-flex align-items-center" v-if="schedule.appointment_type_id == 2">
                         <i v-if="schedule.appointment_type_id == 2" class="fa-solid fa-video"></i>
-                        <i v-if="schedule.appointment_type_id == 1" class="fa-solid fa-volume-high"></i>
-                        <i v-if="schedule.appointment_type_id == 5" class="fa-solid fa-house"></i>
-                        <i v-if="schedule.appointment_type_id == 4" class="fa-solid fa-house-chimney-medical"></i>
-
-                        <span class="
+                        <span v-if="schedule.appointment_type_id == 2" class="
                           d-flex
                           flex-column
                           justify-content-start
@@ -95,9 +71,8 @@
                           ps-xxl-3 ps-2
                         ">
                           <p class="mb-0 text-capitalize">
-                            {{ schedule.appointment_type.name }} Consult
+                            Video Consult
                           </p>
-                          <span class="text-muted">Fee {{ schedule.fee }}</span>
                         </span>
                       </div>
                     </button>
@@ -106,7 +81,7 @@
                 <div class="col-xxl-9 col-lg-8">
                   <div class="tab-content p-4 mt-lg-0 mt-4" id="v-pills-tabContent">
                     <div class="tab-pane fade show active py-5" id="v-pills-chat" role="tabpanel"
-                      aria-labelledby="v-pills-chat-tab">
+                      aria-labelledby="v-pills-video-tab">
                       <div class="row">
                         <div class="col-md-12">
                           <div class="row">
@@ -368,6 +343,7 @@ export default {
     },
     async fetchAvailableSlots(e, appointment_type) {
       // console.log(e);
+
       let today = new Date(e).toLocaleDateString('en-us');
       this.selected_date = today;
       this.selected_new_date = today;
@@ -516,7 +492,7 @@ export default {
       const params = {
         token: 123,
         mentor_id: this.id,
-        appointment_type_id: 3,
+        appointment_type_id: 2,
       };
       const res = await axios.get("/api/get-mentor-fee", { params });
       if (res.data && res.data.Status) {
@@ -531,11 +507,11 @@ export default {
   created() {
     console.log(" step -> 1");
     this.fetchMentorData();
+    console.log("deits ->",mentorDetails)
     console.log(" step -> 2");
 
     this.checkLoggedIn();
     console.log(" step -> 3");
-
   },
   watch: {
     berk: {

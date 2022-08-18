@@ -87,14 +87,14 @@ class MentorCategoryController extends Controller
 
                 $mentor['rating']=round($rating);
                 $mentor['ratingCount']=$ratingCount;
-                if ($chat_type->isEmpty()) {
-                    $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : 0;
-                } else if ($schedule_types->isEmpty()) {
-                    $minFee = count($chat_type) > 0 ? $chat_type[0]->fee : 0;
-                } else {
+                // if ($chat_type->isEmpty()) {
+                //     $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : 0;
+                // } else if ($schedule_types->isEmpty()) {
+                //     $minFee = count($chat_type) > 0 ? $chat_type[0]->fee : 0;
+                // } else {
 
-                    $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : count($chat_type) > 0 ? $chat_type[0]->fee : 0;
-                }
+                //     $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : count($chat_type) > 0 ? $chat_type[0]->fee : 0;
+                // }
                 foreach($schedule_types as $schedule_type ){
                     if($minFee>$schedule_type->fee)
                         $minFee=$schedule_type->fee;
@@ -252,14 +252,14 @@ class MentorCategoryController extends Controller
 
             $mentor['ratingCount']=$ratingCount;
 
-            if ($chat_type->isEmpty()) {
-                $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : 0;
-            } else if ($schedule_types->isEmpty()) {
-                $minFee = count($chat_type) > 0 ? $chat_type[0]->fee : 0;
-            } else {
+            // if ($chat_type->isEmpty()) {
+            //     $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : 0;
+            // } else if ($schedule_types->isEmpty()) {
+            //     $minFee = count($chat_type) > 0 ? $chat_type[0]->fee : 0;
+            // } else {
 
-                $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : count($chat_type) > 0 ? $chat_type[0]->fee : 0;
-            }
+            //     $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : count($chat_type) > 0 ? $chat_type[0]->fee : 0;
+            // }
             foreach($schedule_types as $schedule_type ){
                 if($minFee>$schedule_type->fee)
                     $minFee=$schedule_type->fee;
@@ -327,14 +327,14 @@ class MentorCategoryController extends Controller
             $mentor['without_schedule_types']=$chat_type;
             $mentor['rating']=round($rating);
 
-            if ($chat_type->isEmpty()) {
-                $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : 0;
-            } else if ($schedule_types->isEmpty()) {
-                $minFee = count($chat_type) > 0 ? $chat_type[0]->fee : 0;
-            } else {
+            // if ($chat_type->isEmpty()) {
+            //     $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : 0;
+            // } else if ($schedule_types->isEmpty()) {
+            //     $minFee = count($chat_type) > 0 ? $chat_type[0]->fee : 0;
+            // } else {
 
-                $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : count($chat_type) > 0 ? $chat_type[0]->fee : 0;
-            }
+            //     $minFee = count($schedule_types) > 0 ? $schedule_types[0]->fee : count($chat_type) > 0 ? $chat_type[0]->fee : 0;
+            // }
             foreach($schedule_types as $schedule_type ){
                 if($minFee>$schedule_type->fee)
                     $minFee=$schedule_type->fee;

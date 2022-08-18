@@ -72,7 +72,7 @@
         </section>
         <section-buttons>
             <div class="Buttons">
-                <button type="button" @click="idSetter(1)">Go to User1</button>
+                <button type="button" @click="idSetter(191)">Go to User1</button>
                 <button type="button" @click="idSetter(2)">Go to User2</button>
                 <button type="button" @click="idSetter(9)">Go to User3</button>
             </div>
@@ -94,7 +94,7 @@ export default {
     props: ["url", "givenID"],
     data() {
         return {
-            berk: 1,
+            berk: 191,
         }
     },
     methods: {

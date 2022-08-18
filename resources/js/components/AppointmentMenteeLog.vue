@@ -1153,7 +1153,7 @@ export default {
         mentee_id: this.User.user_id,
         status:0
       };
-    //   console.log(params);
+    console.log("PARA",params);
       const res = await axios.get("/api/menteeAppointments", { params });
 
       if (res.data && res.data.Status) {
@@ -1169,7 +1169,6 @@ export default {
         mentee_id: this.User.user_id,
         status:1
       };
-    //   console.log(params);
       const res = await axios.get("/api/menteeAppointments", { params });
 
       if (res.data && res.data.Status) {
@@ -1231,7 +1230,6 @@ export default {
         search: this.search_complete,
         mentee_id: this.User.user_id,
       };
-    //   console.log(params);
       const res = await axios.get("/api/search-appointment-mentee", { params });
 
       if (res.data && res.data.Status) {
@@ -1277,8 +1275,8 @@ export default {
       window.location.href = this.url + "/login";
       this.$toasted.error("Please Login First");
     }
-    this.fetchCompletedAppointments();
     this.fetchPendingAppointments();
-  },
+    this.fetchCompletedAppointments();
+  }
 };
 </script>

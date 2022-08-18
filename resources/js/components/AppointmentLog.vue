@@ -1229,7 +1229,6 @@ export default {
         token: 123,
         mentor_id: this.User.user_id,
       };
-    //   console.log(params);
       const res = await axios.get("/api/newMentorAppointments", { params });
 
       if (res.data && res.data.Status) {
