@@ -429,7 +429,6 @@ export default {
                         token: 123,
                         mentor_id: this.mentor_id,
                         appointment_type_id: this.appointment_id,
-                        fee: this.videoSlot.fee,
                         slots: this.timeSlots,
                         interval: this.videoSlot.interval,
                         day: this.videoSlot.day,

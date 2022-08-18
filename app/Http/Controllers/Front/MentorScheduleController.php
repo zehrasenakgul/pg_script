@@ -107,7 +107,7 @@ class MentorScheduleController extends Controller
         $validator = Validator::make($request->all(), [
             'mentor_id' => 'required',
             'appointment_type_id' => 'required',
-            'fee' => 'required|min:100|numeric',
+            // 'fee' => 'required|min:100|numeric',
             'day' => 'required',
             // 'shift'=>'required|string',
             // 'start_time'=>'required',
@@ -124,7 +124,7 @@ class MentorScheduleController extends Controller
         if ($request->token==$token){
             $mentor_id=$request->mentor_id;
             $appointment_type_id=$request->appointment_type_id;
-            $fee=$request->fee;
+            // $fee=$request->fee;
             $day=$request->day;
             // $shift=$request->shift;
             // $start_time=$request->start_time;
@@ -133,11 +133,11 @@ class MentorScheduleController extends Controller
             // $slots=$request->slots;
 
             //update fee for all days
-            MentorSchedule::where([['mentor_id',$mentor_id]
-            ,['appointment_type_id',$appointment_type_id]
-            ])->update([
-                'fee'=>$fee,
-            ]);
+            // MentorSchedule::where([['mentor_id',$mentor_id]
+            // ,['appointment_type_id',$appointment_type_id]
+            // ])->update([
+            //     'fee'=>$fee,
+            // ]);
             $already_exist=MentorSchedule::where([
                 ['mentor_id',$mentor_id],
                 ['appointment_type_id',$appointment_type_id],
@@ -148,7 +148,7 @@ class MentorScheduleController extends Controller
             ])->first();
             if($already_exist){
                 $already_exist->update([
-                    'fee'=>$fee,
+                    // 'fee'=>$fee,
                     'is_holiday'=>0,
                     'is_active'=>1,
                     'appointment_type_id'=>$appointment_type_id
@@ -180,7 +180,7 @@ class MentorScheduleController extends Controller
                     'mentor_id'=>$mentor_id,
                     'appointment_type_id'=>$appointment_type_id,
                     'day'=>$day,
-                    'fee'=>$fee,
+                    // 'fee'=>$fee,
                     'is_holiday'=>0,
                     'is_active'=>1,
                     'appointment_type_id'=>$appointment_type_id
