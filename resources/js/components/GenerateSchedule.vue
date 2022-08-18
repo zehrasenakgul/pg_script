@@ -130,13 +130,6 @@
                                 </h6>
                                 <div class="schedule-border p-3" v-if="showSlotPanel">
                                     <div class="row d-flex align-items-center h-100">
-                                        <div class="col-md-6 col-lg-4 mt-2">
-                                            <span>Enter Video Consultation Charges:</span>
-                                        </div>
-                                        <div class="col-md-6 col-lg-3 mt-2">
-                                            <input type="number" class="form-control border"
-                                                placeholder="Enter Video Charges" v-model="videoSlot.fee" />
-                                        </div>
                                         <div class="col-md-6 col-lg-2 mt-2">
                                             <span>Select Days</span>
                                         </div>
