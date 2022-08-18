@@ -17,103 +17,100 @@ use App\Events\UserOnline;
 use App\Models\BookAppointment;
 use App\Models\MentorAssignCategory;
 use Mail;
-use Illuminate\Support\Str;;
+use Illuminate\Support\Str;
+;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Hash;
+
 class UserLoginSignController extends Controller
-{
+ {
     //Combine Login Sign up
 
-    public function loginSignup(Request $request)
-    {
-        $token = "123";
-        if ($request->token == $token) {
-            $request->validate([
+    public function loginSignup( Request $request )
+ {
+        $token = '123';
+        if ( $request->token == $token ) {
+            $request->validate( [
                 'phone' => 'required|string',
-            ]);
+            ] );
 
             $phone = $request->phone;
             $role = $request->role;
-            $user = User::where('phone', '=', $phone)->get();
-
-
-
+            $user = User::where( 'phone', '=', $phone )->get();
 
             //user Exist then Login
-            if (count($user) > 0) {
+            if ( count( $user ) > 0 ) {
 
-                $tokenResult = $user[0]->createToken('Personal Access Token');
+                $tokenResult = $user[ 0 ]->createToken( 'Personal Access Token' );
                 $token = $tokenResult->token;
-                // if ($request->remember_me)
-                $token->expires_at = Carbon::now()->addWeeks(1);
+                // if ( $request->remember_me )
+                $token->expires_at = Carbon::now()->addWeeks( 1 );
                 $token->save();
                 //update user status and broadcast event to pusher
-                $status_user = User::where('id', $user[0]->id)->first();
-                if ($status_user->update(["online_status" => "online"])) {
-                    broadcast(new UserOnline($status_user));
-                    // \Artisan::call('queue:listen');
+                $status_user = User::where( 'id', $user[ 0 ]->id )->first();
+                if ( $status_user->update( [ 'online_status' => 'online' ] ) ) {
+                    broadcast( new UserOnline( $status_user ) );
+                    // \Artisan::call( 'queue:listen' );
                 }
 
+                // dd( User::find( $user[ 0 ]->id ) );
+                if ( $role == 'Mentor' ) {
 
-                // dd(User::find($user[0]->id));
-                if ($role == "Mentor") {
-
-                    $mentor = Mentor::where('user_id', $user[0]->id)->get();
-                    if (count($mentor) > 0) {
-                        $obj = ["Status" => true, "success" => 1, "data" =>
-                         [
-                         'AccessToken' => $tokenResult->accessToken,
-                        'token_type' => 'Bearer',
-                        'expires_at' => Carbon::parse(
-                            $tokenResult->token->expires_at
-                        )->toDateTimeString(),
-
-
-                         'role' => $role, "is_login" => 1, "userDetail" => $user, 'is_profile_complete' => $mentor[0]->is_profile_completed], "msg" => "Logged in Successfully"];
-                        session(['userDetail' => $status_user, 'role' => $role]);
-                        return response()->json($obj);
-                    } else {
-                        $mentor = Mentor::create(['user_id' => $user[0]->id, 'status' => 0]);
-                        $obj = ["Status" => true, "success" => 1, "data" => [
+                    $mentor = Mentor::where( 'user_id', $user[ 0 ]->id )->get();
+                    if ( count( $mentor ) > 0 ) {
+                        $obj = [ 'Status' => true, 'success' => 1, 'data' =>
+                        [
                             'AccessToken' => $tokenResult->accessToken,
                             'token_type' => 'Bearer',
                             'expires_at' => Carbon::parse(
                                 $tokenResult->token->expires_at
                             )->toDateTimeString(),
-                             'role' => $role,
-                              "is_login" => 1, "userDetail" => $user, 'is_profile_complete' => 0], "msg" => "Logged in Successfully"];
-                        session(['userDetail' => $status_user, 'role' => $role]);
-                        return response()->json($obj);
-                    }
-                } else {
-                    $mentee = Mentee::where('user_id', $user[0]->id)->first();
-                    if ($mentee) {
-                        $obj = ["Status" => true, "success" => 1, "data" => [
-                            'AccessToken' => $tokenResult->accessToken,
-                            'token_type' => 'Bearer',
-                            'expires_at' => Carbon::parse(
-                                $tokenResult->token->expires_at
-                            )->toDateTimeString(),
-                             'role' => $role, "is_login" => 1, "userDetail" => $user], "msg" => "Logged in Successfully"];
-                        session(['userDetail' => $status_user, 'role' => $role]);
-                        return response()->json($obj);
-                    } else {
-                        $mentee = Mentee::create(['user_id' => $user[0]->id]);
-                        $obj = ["Status" => true, "success" => 1, "data" => [
-                            'AccessToken' => $tokenResult->accessToken,
-                        'token_type' => 'Bearer',
-                        'expires_at' => Carbon::parse(
-                            $tokenResult->token->expires_at
-                        )->toDateTimeString(),
-                         'role' => $role, "is_login" => 1, "userDetail" => $user], "msg" => "Logged in Successfully"];
-                        session(['userDetail' => $status_user, 'role' => $role]);
-                        return response()->json($obj);
-                    }
-                }
-            }
-            //User Doesn't Exist Sign up then Login
+
+                            'role' => $role, 'is_login' => 1, 'userDetail' => $user, 'is_profile_complete' => $mentor[ 0 ]->is_profile_completed ], 'msg' => 'Logged in Successfully' ];
+                            session( [ 'userDetail' => $status_user, 'role' => $role ] );
+                            return response()->json( $obj );
+                        } else {
+                            $mentor = Mentor::create( [ 'user_id' => $user[ 0 ]->id, 'status' => 0 ] );
+                            $obj = [ 'Status' => true, 'success' => 1, 'data' => [
+                                'AccessToken' => $tokenResult->accessToken,
+                                'token_type' => 'Bearer',
+                                'expires_at' => Carbon::parse(
+                                    $tokenResult->token->expires_at
+                                )->toDateTimeString(),
+                                'role' => $role,
+                                'is_login' => 1, 'userDetail' => $user, 'is_profile_complete' => 0 ], 'msg' => 'Logged in Successfully' ];
+                                session( [ 'userDetail' => $status_user, 'role' => $role ] );
+                                return response()->json( $obj );
+                            }
+                        } else {
+                            $mentee = Mentee::where( 'user_id', $user[ 0 ]->id )->first();
+                            if ( $mentee ) {
+                                $obj = [ 'Status' => true, 'success' => 1, 'data' => [
+                                    'AccessToken' => $tokenResult->accessToken,
+                                    'token_type' => 'Bearer',
+                                    'expires_at' => Carbon::parse(
+                                        $tokenResult->token->expires_at
+                                    )->toDateTimeString(),
+                                    'role' => $role, 'is_login' => 1, 'userDetail' => $user ], 'msg' => 'Logged in Successfully' ];
+                                    session( [ 'userDetail' => $status_user, 'role' => $role ] );
+                                    return response()->json( $obj );
+                                } else {
+                                    $mentee = Mentee::create( [ 'user_id' => $user[ 0 ]->id ] );
+                                    $obj = [ 'Status' => true, 'success' => 1, 'data' => [
+                                        'AccessToken' => $tokenResult->accessToken,
+                                        'token_type' => 'Bearer',
+                                        'expires_at' => Carbon::parse(
+                                            $tokenResult->token->expires_at
+                                        )->toDateTimeString(),
+                                        'role' => $role, 'is_login' => 1, 'userDetail' => $user ], 'msg' => 'Logged in Successfully' ];
+                                        session( [ 'userDetail' => $status_user, 'role' => $role ] );
+                                        return response()->json( $obj );
+                                    }
+                                }
+                            }
+                            //User Doesn't Exist Sign up then Login
             else if (count($user) == 0) {
                 $newUser = new User();
                 $newUser->phone = $phone;
@@ -132,7 +129,7 @@ class UserLoginSignController extends Controller
                     // \Artisan::call('queue:listen');
                 }
                 $usersign = User::where('id', $newUser->id)->get();
-                $user_role = Role::where('name', '=', $role)->get();
+                $user_role = Role::where('name', ' = ', $role)->get();
                 RoleUser::create(['role_id' => $user_role[0]->id, 'user_id' => $newUser->id]);
                 if ($role == 'Mentor') {
 
@@ -204,7 +201,7 @@ class UserLoginSignController extends Controller
             $phone = $request->phone;
             $role = $request->role;
             $role_user = Role::where('name', $role)->get();
-            $user = User::where('phone', '=', $phone)->get();
+            $user = User::where('phone', ' = ', $phone)->get();
 
             if (count($user) == 0) {
                 $obj = ["Status" => false, "success" => 0, "msg" => "No User Exist on This Phone Number"];
@@ -276,7 +273,7 @@ class UserLoginSignController extends Controller
 
 
 
-            $user = User::where('phone', '=', $phone)->get();
+            $user = User::where('phone', ' = ', $phone)->get();
             if (count($user) > 0) {
                 $obj = ["Status" => false, "success" => 0, "data" => ["AccessToken" => "hgyhjjj", 'role' => $role, "userDetail" => $user], "msg" => "User Phone Already exist In Database Please Login !"];
                 // $obj=json_encode($obj);
@@ -289,7 +286,7 @@ class UserLoginSignController extends Controller
             $newUser->save();
 
             $usersign = User::where('id', $newUser->id)->get();
-            $user_role = Role::where('name', '=', $role)->get();
+            $user_role = Role::where('name', ' = ', $role)->get();
             RoleUser::create(['role_id' => $user_role[0]->id, 'user_id' => $newUser->id]);
             if ($role == 'Mentor') {
 
@@ -323,20 +320,20 @@ class UserLoginSignController extends Controller
                 [
                     'first_name' => 'required|string',
                     'last_name' => 'required|string',
-                    'mentor_id' => 'required',
+                    // 'mentor_id' => 'required',
                     'father_name' => 'required|string',
-                    'cnic' => 'required',
-                    'address' => 'required|string',
-                    'gender' => 'required|string',
-                    'religion' => 'required|string',
-                    'dob' => 'required',
-                    'occupation' => 'required',
-                    'country' => 'required',
-                    'city' => 'required|string',
-                    'about' => 'required|string',
-                    // 'email' => 'required|unique:users,email,' . $id . ',id|string',
+                    // 'cnic' => 'required',
+                    // 'address' => 'required|string',
+                    // 'gender' => 'required|string',
+                    // 'religion' => 'required|string',
+                    // 'dob' => 'required',
+                    // 'occupation' => 'required',
+                    // 'country' => 'required',
+                    // 'city' => 'required|string',
+                    // 'about' => 'required|string',
+                    // 'email' => 'required|unique:users, email, ' . $id . ', id|string',
 
-                    //'picture'=>'required|mimes:png,jpg,jpeg|max:20048'
+                    //'picture'=>'required|mimes:png, jpg, jpeg|max:20048'
                 ]
             );
             if ($validator->fails()) {
@@ -436,7 +433,7 @@ class UserLoginSignController extends Controller
 
                 //schedule types available
 
-                $schedule_types=MentorSchedule::has('schedule_slots')->select('appointment_type_id',DB::raw('min(fee) as fee'))->where('mentor_id',$id)->with('appointment_type')->groupBy('appointment_type_id')->get();
+                $schedule_types=MentorSchedule::has('schedule_slots')->select('appointment_type_id',DB::raw('min( fee ) as fee'))->where('mentor_id',$id)->with('appointment_type')->groupBy('appointment_type_id')->get();
                 $user['schedule_types']=$schedule_types;
                 $chat_type=MentorSchedule::select('appointment_type_id','fee')->where([['mentor_id',$id],['appointment_type_id',3]])->with('appointment_type')->get();
                 $user['without_schedule_types']=$chat_type;
@@ -756,7 +753,7 @@ class UserLoginSignController extends Controller
         $obj = [
             "Status" => true, "success" => 1,
             'msg'=>'Successfully Updated Password'
-        ];
-        return response()->json($obj);
-    }
-}
+                        ];
+                        return response()->json( $obj );
+                    }
+                }
